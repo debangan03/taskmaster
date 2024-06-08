@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List - TaskMaster</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-white text-2xl font-bold">TaskMaster</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-6 text-center">Todo List</h1>
+            
+            <form action="/add" method="POST" class="flex mb-6">
+                <input type="text" name="task" placeholder="New task" class="flex-1 border border-gray-300 rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Add Task</button>
+            </form>
+            
+            <ul class="space-y-4">
+                <% todos.forEach((todo, index) => { %>
+                    <li class="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-gray-700"><%= index + 1 %>.</span>
+                            <span class="<%= todo.completed ? 'line-through text-gray-400' : 'text-gray-700' %> capitalize"><%= todo.task %></span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <% if (!todo.completed) { %>
+                                <form action="/complete/<%= todo.id %>" method="POST">
+                                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">Complete</button>
+                                </form>
+                            <% } %>
+                            <form action="/delete/<%= todo.id %>" method="POST">
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
